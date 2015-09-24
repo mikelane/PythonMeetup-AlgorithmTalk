@@ -41,6 +41,7 @@ class Fibonacci:
         # Start the timer and call the helper function
         start = time.clock()
         value = self._recursive(n)
+        self.numOps += 2
         duration = round((time.clock() - start) * 1000000)
 
         # return the results in a dict.
@@ -55,12 +56,13 @@ class Fibonacci:
          numOps is the number of operations (adds) used.
         """
         # Base case
-        if n == 1 or n ==2:
+        if n == 1 or n == 2:
+            self.numOps +=1
             return 1
 
         # Call the function recursively
         value = self._recursive(n-2) + self._recursive(n-1)
-        self.numOps += 1
+        self.numOps += 7
 
         return value
 
@@ -86,6 +88,7 @@ class Fibonacci:
         # Start a timer and calculate our value.
         start = time.clock()
         value = self._memoization(n)
+        self.numOps += 2
         duration = round((time.clock() - start) * 1000000)
 
         return value, self.numOps, duration
@@ -97,18 +100,25 @@ class Fibonacci:
         :return: An int value: the value is the nth fibonacci number
         """
         # Populate the memo with the base case
-        self.memo[1] = 1
-        self.memo[2] = 1
+        if 1 not in self.memo:
+            self.memo[1] = 1
+            self.numOps += 2
+        if 2 not in self.memo:
+            self.memo[2] = 1
+            self.numOps += 2
+        else:
+            self.numOps += 2
 
         # For a given n, if that value is not stored in the memo, calculate it
         # by calling the function recursively.
         if n not in self.memo:
             # And then store the calculated value in the memo for future use
             self.memo[n] = self._memoization(n-2) + self._memoization(n-1)
-            self.numOps += 1
+            self.numOps += 7
 
         # Now we know that the nth fibonacci number is stored in the memo, so
         # return it to the caller.
+        self.numOps += 1
         return self.memo[n]
 
     def dynamicProgramming(self, n):
@@ -141,11 +151,12 @@ class Fibonacci:
         a = 1
         b = 1
         value = 1
-        self.numOps = 0
+        self.numOps = 3
 
         # Return the base case values and stop the clock if required.
         if n == 1 or n == 2:
             duration = round((time.clock() - start) * 1000000)
+            self.numOps += 2
             return value, self.numOps, duration
 
         # Starting at 3 and going to n (range's max value is not inclusive), calculate
@@ -155,7 +166,7 @@ class Fibonacci:
             value = a + b
             a = b
             b = value
-            self.numOps += 1
+            self.numOps += 4
 
         # Stop the timer.
         duration = round((time.clock() - start) * 1000000)
