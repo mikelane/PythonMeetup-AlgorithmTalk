@@ -106,6 +106,57 @@ class Fibonacci:
         # return it to the caller.
         return m[n]
 
+    def dynamicProgramming(self, n):
+        """What's wrong with memoization? It was a DRASTIC improvement over basic
+        recursion. But at what cost? Space efficiency. That memo is a dictionary that
+        takes up O(n) space. Additionally, our recursion is worse case O(n) stack
+        frames. Bear in mind also, that the assignment operations and pushing and
+        popping frames off the stack are now coming into play in our efficiency
+        calculation. Python will also limit the depth of recursion so at large values
+        of n, we will get an error.
+
+        Enter Dynamic Programming. What do we need to keep track of? For n > 3, we
+        only need the previous 2 values, right? So why bother storing anything more
+        than that? And while we're at it, let's get rid of the recursion to further
+        improve our space efficiency and reduce the overhead of calling functions.
+        :param n: Which fibonacci number we are calculating.
+        :return: A tuple (value, numOps, duration) where value is the calcuated value
+        of the nth fibonacci number, numOps is the required number of operations
+        (adds) it took to get there, and duration is the duration of the function in
+        microseconds.
+        """
+
+        # Guarantee that n is a valid value.
+        if n < 1:
+            raise ValueError('Invalid value for n!')
+
+        # Start the clock and get to calculating
+        start = time.clock()
+        # Define some local variables to keep track of where we are.
+        a = 1
+        b = 1
+        value = 1
+        numOps = 1
+
+        # Return the base case values and stop the clock if required.
+        if n == 1 or n == 2:
+            duration = round((time.clock() - start) * 1000000)
+            return value, numOps, duration
+
+        # Starting at 3 and going to n (range's max value is not inclusive), calculate
+        # each successive fibonacci number while storing only the values we need to
+        # keep track of for the next step.
+        for m in range(3, n+1):
+            value = a + b
+            a = b
+            b = value
+            numOps += 1
+
+        # Stop the timer.
+        duration = round((time.clock() - start) * 1000000)
+
+        return value, numOps, duration
+
 # Testing
 fib = Fibonacci()
 # for i in range(0, 20):
@@ -120,9 +171,21 @@ fib = Fibonacci()
 #               "operations: {}\n"
 #               "      time: {} microseconds\n"
 #               "===========================================".format(i, result[0], result[1], result[2]))
+# for i in range(0, 20):
+#     try:
+#         result = fib.memoization(i)
+#     except ValueError as e:
+#         print("\n\033[91mValueError: {0}\033[0m\n\n"
+#               "===========================================".format(e))
+#     else:
+#         print("         n: {}\n"
+#               "     value: {}\n"
+#               "operations: {}\n"
+#               "      time: {} microseconds\n"
+#               "===========================================".format(i, result[0], result[1], result[2]))
 for i in range(0, 20):
     try:
-        result = fib.memoization(i)
+        result = fib.dynamicProgramming(i)
     except ValueError as e:
         print("\n\033[91mValueError: {0}\033[0m\n\n"
               "===========================================".format(e))
