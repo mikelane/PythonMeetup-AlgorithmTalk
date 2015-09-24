@@ -11,7 +11,6 @@ __version__ = "3.0"
 __email__ = "mikelane@gmail.com"
 
 import time
-from pprint import pprint as pp
 
 class Fibonacci:
     """Object that implements various methods of calculating the nth fibonacci
