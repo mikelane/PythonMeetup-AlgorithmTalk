@@ -212,52 +212,52 @@ class Fibonacci:
         return value, self.numOps, duration
 
 # Testing
-fib = Fibonacci()
-for i in range(0, 20):
-    try:
-        result = fib.recursive(i)
-    except ValueError as e:
-        print("\n\033[91mValueError: {0}\033[0m\n\n"
-              "===========================================".format(e))
-    else:
-        print("         n: {}\n"
-              "     value: {}\n"
-              "operations: {}\n"
-              "      time: {} microseconds\n"
-              "===========================================".format(i, result[0], result[1], result[2]))
-for i in range(0, 20):
-    try:
-        result = fib.memoization(i)
-    except ValueError as e:
-        print("\n\033[91mValueError: {0}\033[0m\n\n"
-              "===========================================".format(e))
-    else:
-        print("         n: {}\n"
-              "     value: {}\n"
-              "operations: {}\n"
-              "      time: {} microseconds\n"
-              "===========================================".format(i, result[0], result[1], result[2]))
-for i in range(0, 20):
-    try:
-        result = fib.dynamicProgramming(i)
-    except ValueError as e:
-        print("\n\033[91mValueError: {0}\033[0m\n\n"
-              "===========================================".format(e))
-    else:
-        print("         n: {}\n"
-              "     value: {}\n"
-              "operations: {}\n"
-              "      time: {} microseconds\n"
-              "===========================================".format(i, result[0], result[1], result[2]))
-for i in range(0, 20):
-    try:
-        result = fib.closedForm(i)
-    except ValueError as e:
-        print("\n\033[91mValueError: {0}\033[0m\n\n"
-              "===========================================".format(e))
-    else:
-        print("         n: {}\n"
-              "     value: {}\n"
-              "operations: {}\n"
-              "      time: {} microseconds\n"
-              "===========================================".format(i, result[0], result[1], result[2]))
+# fib = Fibonacci()
+# for i in range(0, 20):
+#     try:
+#         result = fib.recursive(i)
+#     except ValueError as e:
+#         print("\n\033[91mValueError: {0}\033[0m\n\n"
+#               "===========================================".format(e))
+#     else:
+#         print("         n: {}\n"
+#               "     value: {}\n"
+#               "operations: {}\n"
+#               "      time: {} microseconds\n"
+#               "===========================================".format(i, result[0], result[1], result[2]))
+# for i in range(0, 20):
+#     try:
+#         result = fib.memoization(i)
+#     except ValueError as e:
+#         print("\n\033[91mValueError: {0}\033[0m\n\n"
+#               "===========================================".format(e))
+#     else:
+#         print("         n: {}\n"
+#               "     value: {}\n"
+#               "operations: {}\n"
+#               "      time: {} microseconds\n"
+#               "===========================================".format(i, result[0], result[1], result[2]))
+# for i in range(0, 20):
+#     try:
+#         result = fib.dynamicProgramming(i)
+#     except ValueError as e:
+#         print("\n\033[91mValueError: {0}\033[0m\n\n"
+#               "===========================================".format(e))
+#     else:
+#         print("         n: {}\n"
+#               "     value: {}\n"
+#               "operations: {}\n"
+#               "      time: {} microseconds\n"
+#               "===========================================".format(i, result[0], result[1], result[2]))
+# for i in range(0, 20):
+#     try:
+#         result = fib.closedForm(i)
+#     except ValueError as e:
+#         print("\n\033[91mValueError: {0}\033[0m\n\n"
+#               "===========================================".format(e))
+#     else:
+#         print("         n: {}\n"
+#               "     value: {}\n"
+#               "operations: {}\n"
+#               "      time: {} microseconds\n"
+#               "===========================================".format(i, result[0], result[1], result[2]))
