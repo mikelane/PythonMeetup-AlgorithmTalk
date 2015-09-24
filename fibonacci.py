@@ -28,9 +28,9 @@ class Fibonacci:
         :param n: Which fibonacci number to calculate, ValueError raised if less
          than 1.
         :return: Tuple (value, numOps, duration) where value is the nth fibonacci
-         value, numOps is the number of operations (adds) it took to calculate the
-         value, and duration is the time required to calculate the value rounded to
-         the nearest microsecond.
+         value, numOps is the number of operations it took to calculate the value,
+         and duration is the time required to calculate the value rounded to the
+         nearest microsecond.
         """
         if n < 1:
             raise ValueError('Invalid value for n!')
@@ -53,7 +53,7 @@ class Fibonacci:
          than 0.
         :param numOps: The number of operations used so far in the calculation
         :return: A tuple (value, numOps) where value is the nth fibonacci value and
-         numOps is the number of operations (adds) used.
+         numOps is the number of operations used.
         """
         # Base case
         if n == 1 or n == 2:
@@ -68,13 +68,13 @@ class Fibonacci:
 
     def memoization(self, n):
         """The first optimization we can try is called memoization. The problem with
-        the recursive solution is that, for sufficiently large values of n, it will
-        calculate the same thing many times. So instead of calculating something
-        more than once, we calculate it once and then store the result into a dict.
+         the recursive solution is that, for sufficiently large values of n, it will
+         calculate the same thing many times. So instead of calculating something
+         more than once, we calculate it once and then store the result into a dict.
         :param n: Which fibonacci number to calculate.
         :return: A tuple (value, numOps, duration) where value is the value of the nth
-        fibonacci number, numOps is the number of operations (adds) required, and
-        duration is the number of microseconds required.
+         fibonacci number, numOps is the number of operations required, and duration is
+         the number of microseconds required.
         """
 
         # Guarantee that we only try valid values of n.
@@ -123,22 +123,22 @@ class Fibonacci:
 
     def dynamicProgramming(self, n):
         """What's wrong with memoization? It was a DRASTIC improvement over basic
-        recursion. But at what cost? Space efficiency. That memo is a dictionary that
-        takes up O(n) space. Additionally, our recursion is worse case O(n) stack
-        frames. Bear in mind also, that the assignment operations and pushing and
-        popping frames off the stack are now coming into play in our efficiency
-        calculation. Python will also limit the depth of recursion so at large values
-        of n, we will get an error.
+         recursion. But at what cost? Space efficiency. That memo is a dictionary that
+         takes up O(n) space. Additionally, our recursion is worse case O(n) stack
+         frames. Bear in mind also, that the assignment operations and pushing and
+         popping frames off the stack are now coming into play in our efficiency
+         calculation. Python will also limit the depth of recursion so at large values
+         of n, we will get an error.
 
-        Enter Dynamic Programming. What do we need to keep track of? For n > 3, we
-        only need the previous 2 values, right? So why bother storing anything more
-        than that? And while we're at it, let's get rid of the recursion to further
-        improve our space efficiency and reduce the overhead of calling functions.
+         Enter Dynamic Programming. What do we need to keep track of? For n > 3, we
+         only need the previous 2 values, right? So why bother storing anything more
+         than that? And while we're at it, let's get rid of the recursion to further
+         improve our space efficiency and reduce the overhead of calling functions.
         :param n: Which fibonacci number we are calculating.
         :return: A tuple (value, numOps, duration) where value is the calcuated value
-        of the nth fibonacci number, numOps is the required number of operations
-        (adds) it took to get there, and duration is the duration of the function in
-        microseconds.
+         of the nth fibonacci number, numOps is the required number of operations
+         it took to get there, and duration is the duration of the function in
+         microseconds.
         """
 
         # Guarantee that n is a valid value.
