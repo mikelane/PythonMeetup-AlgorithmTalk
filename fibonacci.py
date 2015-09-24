@@ -141,9 +141,9 @@ class Fibonacci:
          microseconds.
         """
 
-        # Guarantee that n is a valid value.
+        # guarantee that n is a valid value.
         if n < 1:
-            raise ValueError('Invalid value for n!')
+            raise ValueError('invalid value for n!')
 
         # Start the clock and get to calculating
         start = time.clock()
@@ -170,6 +170,44 @@ class Fibonacci:
 
         # Stop the timer.
         duration = round((time.clock() - start) * 1000000)
+
+        return value, self.numOps, duration
+
+    def closedForm(self, n):
+        """But wait! There's more! Sometimes we get lucky and a sequence like this can
+         be calculated directly. If this is the case, the formula for calculating a
+         value is called the closed form. The fibonacci sequence is an example of a
+         sequence that has a closed form (google it). There are some sequences that
+         cannot possibly have a closed form, however (e.g. there is no closed form that
+         can calculate the nth digit of pi).
+
+         The upside is that we do not have to calculate every value in the sequence
+         prior to our target number. There is a downside, though. Because of the limits
+         of floating point precision, we are forced to accept an approximate value for
+         the nth fibonacci number which could lead to slight errors when the numbers
+         get extremely large. Furthermore, the intermediate steps in the calculation
+         (for example 2^n) will overflow before n gets to be an interesting size. To
+         overcome this python has algorithms that work in the background to calculate
+         and stitch numbers together. These algorithms take time and, therefore, hide
+         some operations from us.
+        :param n: Which fibonacci number to calculate, ValueError raised if less
+         than 1.
+        :return: Tuple (value, numOps, duration) where value is the nth fibonacci
+         value, numOps is the number of operations (adds) it took to calculate the
+         value, and duration is the time required to calculate the value rounded to
+         the nearest microsecond.
+        """
+        # guarantee that n is a valid value.
+        if n < 1:
+            raise ValueError('invalid value for n!')
+
+        self.numOps = 0
+
+        # Start the timer and calculate the value.
+        start = time.clock()
+        value = round((((1 + (5 ** 0.5)) ** n) - ((1 - (5 ** 0.5)) ** n)) / ((2 ** n) * (5 ** 0.5)))
+        duration = round((time.clock() - start) * 1000000)
+        self.numOps += 13 # Python potentially hides important operations from us!
 
         return value, self.numOps, duration
 
@@ -202,6 +240,18 @@ for i in range(0, 20):
 for i in range(0, 20):
     try:
         result = fib.dynamicProgramming(i)
+    except ValueError as e:
+        print("\n\033[91mValueError: {0}\033[0m\n\n"
+              "===========================================".format(e))
+    else:
+        print("         n: {}\n"
+              "     value: {}\n"
+              "operations: {}\n"
+              "      time: {} microseconds\n"
+              "===========================================".format(i, result[0], result[1], result[2]))
+for i in range(0, 20):
+    try:
+        result = fib.closedForm(i)
     except ValueError as e:
         print("\n\033[91mValueError: {0}\033[0m\n\n"
               "===========================================".format(e))
