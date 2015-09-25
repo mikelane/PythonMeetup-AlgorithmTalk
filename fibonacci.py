@@ -19,8 +19,6 @@ class Fibonacci:
     and why we must take these factors into consideration as programmers."""
 
     def __init__(self):
-        self.COLOR_RED = '\033[91m'
-        self.COLOR_NONE = '\033[0m'
         self.memo = {}
         self.numOps = 0
 
