@@ -11,6 +11,7 @@ __version__ = "3.0"
 __email__ = "mikelane@gmail.com"
 
 import time
+from pprint import pprint as pp
 
 class Fibonacci:
     """Object that implements various methods of calculating the nth fibonacci
@@ -34,6 +35,10 @@ class Fibonacci:
         """
         if n < 1:
             raise ValueError('Invalid value for n!')
+
+        # Let's raise an error if n > 40 since it starts taking way too long
+        if n > 40:
+            raise ValueError('TOO BIG')
 
         # Reset the operations counter
         self.numOps = 0
@@ -80,6 +85,11 @@ class Fibonacci:
         # Guarantee that we only try valid values of n.
         if n < 1:
             raise ValueError('Invalid value for n!')
+
+        # Through trial and error on my machine, it appears n = 1995 is the
+        # limit for the recursive depth of this function. So raise an error
+        if n > 1995:
+            raise ValueError('ERROR')
 
         # Reset the class's memo and numOps values
         self.memo = {}
@@ -145,6 +155,13 @@ class Fibonacci:
         if n < 1:
             raise ValueError('invalid value for n!')
 
+        # This is MUCH faster than recursion and we don't have to worry about
+        # the depth of recursion. However, the time grows as the number of
+        # entries grows. Let's limit it to 20,000,000 which takes about a
+        # minute on a decent machine.
+        if n > 2000000:
+            raise ValueError('TOO BIG')
+
         # Start the clock and get to calculating
         start = time.clock()
         # Define some local variables to keep track of where we are.
@@ -200,6 +217,10 @@ class Fibonacci:
         # guarantee that n is a valid value.
         if n < 1:
             raise ValueError('invalid value for n!')
+
+        # Trial and error says that 604 is as large as I can do.
+        if n > 604:
+            raise ValueError('TOO BIG')
 
         self.numOps = 0
 
@@ -261,3 +282,77 @@ class Fibonacci:
 #               "operations: {}\n"
 #               "      time: {} microseconds\n"
 #               "===========================================".format(i, result[0], result[1], result[2]))
+
+# Testing errors
+
+fib = Fibonacci()
+
+# for i in range(1990, 2000, 1):
+#     try:
+#         pp("i: {}\n{}".format(i, fib.memoization(i)))
+#     except RecursionError as e:
+#         print("RecursionError! {0}".format(e))
+#     except ValueError as e:
+#         print("{}".format(e))
+
+# for i in range(1, 42, 1):
+#     try:
+#         pp("i: {}\n{}".format(i, fib.recursive(i)))
+#     except RecursionError as e:
+#         print("RecursionError! {0}".format(e))
+#     except ValueError as e:
+#         print("{}".format(e))
+
+# I've determined via wolfram alpha that this grows a bit more than
+# (8 * fibonacci(n)) / (1.1E8) seconds.
+# try:
+#     pp(fib.recursive(41))
+# except ValueError as e:
+#     print("{}".format(e))
+
+# Wolfram Alpha suggests this grows cubically when run on my machine:
+# 4.84784×10^-14 * n^3 + 0.0000126313 * n^2 - 572057.+3.45878 * n
+# for i in range(10, 10000000, 1000000):
+#     try:
+#         value = fib.dynamicProgramming(i)
+#     except ValueError as e:
+#         print("{}".format(e))
+#     else:
+#         print("time: {}".format(value[2]))
+
+# value = fib.closedForm(604)
+
+print("\n\n\t{:^62}\n".format("Time to calculate fibonacci(2^n) in "
+                              "microseconds"))
+print("\t==============================================================")
+print("\t|  n: | Recursive | Memoization | Dynamic Prog | Closed Form |")
+print("\t==============================================================")
+
+for i in range(0, 22):
+    try:
+        r = fib.recursive(2**i)
+        r = r[2]
+    except ValueError as e:
+        r = e
+    try:
+        m = fib.memoization(2**i)
+        m = m[2]
+    except ValueError as e:
+        m = e
+    try:
+        d = fib.dynamicProgramming(2**i)
+        d = d[2]
+    except ValueError as e:
+        d = e
+    try:
+        c = fib.closedForm(2**i)
+        c = c[2]
+    except ValueError as e:
+        c = e
+
+    print("\t| {:>2}: | {:>9} | {:>11} | {:>12} | {:>11} |".format(str(i),
+                                                                str(r),
+                                                                str(m),
+                                                                str(d),
+                                                                str(c)))
+print("\t==============================================================")
