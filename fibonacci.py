@@ -27,9 +27,9 @@ class Fibonacci:
         :param n: Which fibonacci number to calculate, ValueError raised if less
          than 1.
         :return: Tuple (value, numOps, duration) where value is the nth fibonacci
-         value, numOps is the number of operations it took to calculate the value,
-         and duration is the time required to calculate the value rounded to the
-         nearest microsecond.
+         value, numOps is the number of operations it took to calculate the
+         value, and duration is the time required to calculate the value rounded
+         to the nearest microsecond.
         """
         if n < 1:
             raise ValueError('Invalid value for n!')
@@ -55,8 +55,8 @@ class Fibonacci:
         :param n: Which fibonacci number to calculate. Guaranteed to be greater
          than 0.
         :param numOps: The number of operations used so far in the calculation
-        :return: A tuple (value, numOps) where value is the nth fibonacci value and
-         numOps is the number of operations used.
+        :return: A tuple (value, numOps) where value is the nth fibonacci value
+         and numOps is the number of operations used.
         """
         # Base case
         if n == 1 or n == 2:
@@ -70,14 +70,15 @@ class Fibonacci:
         return value
 
     def memoization(self, n):
-        """The first optimization we can try is called memoization. The problem with
-         the recursive solution is that, for sufficiently large values of n, it will
-         calculate the same thing many times. So instead of calculating something
-         more than once, we calculate it once and then store the result into a dict.
+        """The first optimization we can try is called memoization. The problem
+         with the recursive solution is that, for sufficiently large values of
+         n, it will calculate the same thing many times. So instead of
+         calculating something more than once, we calculate it once and then
+         store the result into a dict.
         :param n: Which fibonacci number to calculate.
-        :return: A tuple (value, numOps, duration) where value is the value of the nth
-         fibonacci number, numOps is the number of operations required, and duration is
-         the number of microseconds required.
+        :return: A tuple (value, numOps, duration) where value is the value of
+         the nth fibonacci number, numOps is the number of operations required,
+         and duration is the number of microseconds required.
         """
 
         # Guarantee that we only try valid values of n.
@@ -130,23 +131,24 @@ class Fibonacci:
         return self.memo[n]
 
     def dynamicProgramming(self, n):
-        """What's wrong with memoization? It was a DRASTIC improvement over basic
-         recursion. But at what cost? Space efficiency. That memo is a dictionary that
-         takes up O(n) space. Additionally, our recursion is worse case O(n) stack
-         frames. Bear in mind also, that the assignment operations and pushing and
-         popping frames off the stack are now coming into play in our efficiency
-         calculation. Python will also limit the depth of recursion so at large values
-         of n, we will get an error.
+        """What's wrong with memoization? It was a DRASTIC improvement over
+         basic recursion. But at what cost? Space efficiency. That memo is a
+         dictionary that takes up O(n) space. Additionally, our recursion is
+         worse case O(n) stack frames. Bear in mind also, that the assignment
+         operations and pushing and popping frames off the stack are now coming
+         into play in our efficiency calculation. Python will also limit the
+         depth of recursion so at large values of n, we will get an error.
 
-         Enter Dynamic Programming. What do we need to keep track of? For n > 3, we
-         only need the previous 2 values, right? So why bother storing anything more
-         than that? And while we're at it, let's get rid of the recursion to further
-         improve our space efficiency and reduce the overhead of calling functions.
+         Enter Dynamic Programming. What do we need to keep track of? For n > 3,
+         we only need the previous 2 values, right? So why bother storing
+         anything more than that? And while we're at it, let's get rid of the
+         recursion to further improve our space efficiency and reduce the
+         overhead of calling functions.
         :param n: Which fibonacci number we are calculating.
-        :return: A tuple (value, numOps, duration) where value is the calcuated value
-         of the nth fibonacci number, numOps is the required number of operations
-         it took to get there, and duration is the duration of the function in
-         microseconds.
+        :return: A tuple (value, numOps, duration) where value is the calculated
+         value of the nth fibonacci number, numOps is the required number of
+         operations it took to get there, and duration is the duration of the
+         function in microseconds.
         """
 
         # guarantee that n is a valid value.
@@ -174,9 +176,9 @@ class Fibonacci:
             self.numOps += 2
             return value, self.numOps, duration
 
-        # Starting at 3 and going to n (range's max value is not inclusive), calculate
-        # each successive fibonacci number while storing only the values we need to
-        # keep track of for the next step.
+        # Starting at 3 and going to n (range's max value is not inclusive),
+        # calculate each successive fibonacci number while storing only the
+        # values we need to keep track of for the next step.
         for m in range(3, n+1):
             value = a + b
             a = b
@@ -189,28 +191,29 @@ class Fibonacci:
         return value, self.numOps, duration
 
     def closedForm(self, n):
-        """But wait! There's more! Sometimes we get lucky and a sequence like this can
-         be calculated directly. If this is the case, the formula for calculating a
-         value is called the closed form. The fibonacci sequence is an example of a
-         sequence that has a closed form (google it). There are some sequences that
-         cannot possibly have a closed form, however (e.g. there is no closed form that
-         can calculate the nth digit of pi).
+        """But wait! There's more! Sometimes we get lucky and a sequence like
+         this can be calculated directly. If this is the case, the formula for
+         calculating a value is called the closed form. The fibonacci sequence
+         is an example of a sequence that has a closed form (google it). There
+         are some sequences that cannot possibly have a closed form, however
+         (e.g. there is no closed form that can calculate the nth digit of pi).
 
-         The upside is that we do not have to calculate every value in the sequence
-         prior to our target number. There is a downside, though. Because of the limits
-         of floating point precision, we are forced to accept an approximate value for
-         the nth fibonacci number which could lead to slight errors when the numbers
-         get extremely large. Furthermore, the intermediate steps in the calculation
-         (for example 2^n) will overflow before n gets to be an interesting size. To
-         overcome this python has algorithms that work in the background to calculate
-         and stitch numbers together. These algorithms take time and, therefore, hide
-         some operations from us.
+         The upside is that we do not have to calculate every value in the
+         sequence prior to our target number. There is a downside, though.
+         Because of the limits of floating point precision, we are forced to
+         accept an approximate value for the nth fibonacci number which could
+         lead to slight errors when the numbers get extremely large.
+         Furthermore, the intermediate steps in the calculation (for example
+         2^n) will overflow before n gets to be an interesting size. To overcome
+         this python has algorithms that work in the background to calculate and
+         stitch numbers together. These algorithms take time and, therefore,
+         hide some operations from us.
         :param n: Which fibonacci number to calculate, ValueError raised if less
          than 1.
-        :return: Tuple (value, numOps, duration) where value is the nth fibonacci
-         value, numOps is the number of operations (adds) it took to calculate the
-         value, and duration is the time required to calculate the value rounded to
-         the nearest microsecond.
+        :return: Tuple (value, numOps, duration) where value is the nth
+         fibonacci value, numOps is the number of operations (adds) it took to
+         calculate the value, and duration is the time required to calculate the
+         value rounded to the nearest microsecond.
         """
         # guarantee that n is a valid value.
         if n < 1:
